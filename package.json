@@ -5,7 +5,8 @@
   "main": "index.js", 
 "scripts": {
     "test": "cypress run",
-    "runtests": "npm run test"
+    "runtests": "npm run test",
+    "run": "test"
   },
   "keywords": [],
   "author": "",
