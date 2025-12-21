@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         // Ensure this name matches what you configured in Global Tool Configuration
-        nodejs 'Node21'
+        nodejs 'Node25.2.1'
     }
 
     environment {
