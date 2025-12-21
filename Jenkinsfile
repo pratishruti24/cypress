@@ -22,9 +22,9 @@ pipeline {
         stage('Install & Test') {
             steps {
                 bat """
-                    npm install
-                    npx cypress install
-                    npm run runtests
+                    call npm install
+                    call npx cypress install
+                    call npm run runtests
                 """
             }
         }
