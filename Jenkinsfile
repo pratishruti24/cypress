@@ -1,37 +1,40 @@
 pipeline {
-    agent any
-
-    tools {
-        nodejs 'Node25.2.1'
+    agent {
+        dockerfile {
+            // Jenkins will automatically look for the 'Dockerfile' in your repo,
+            // build it, and run these stages inside the resulting container.
+            filename 'Dockerfile'
+            // Optional: If your Docker daemon is on a different server/port
+            // args '-u root' 
+        }
     }
 
     environment {
-        // Use backslashes for Windows paths
-        CYPRESS_CACHE_FOLDER = "${WORKSPACE}\\.cypress-cache"
+        // Linux paths use forward slashes /
+        CYPRESS_CACHE_FOLDER = "${WORKSPACE}/.cypress-cache"
     }
 
     stages {
         stage('Verify Environment') {
             steps {
-                // 'bat' works natively on Windows without extra configuration
-                bat "node -v"
-                bat "npm -v"
+                // We use 'sh' because Docker containers are typically Linux
+                sh "node -v"
+                sh "npm -v"
             }
         }
 
-        stage('Install & Test') {
+        stage('Run Tests') {
             steps {
-                bat """
-                    call npm install
-                    call npx cypress install
-                    call npm run runtests
-                """
+                // Since your Dockerfile already does 'npm install', 
+                // you only need to run the tests here.
+                sh "npm run runtests"
             }
         }
     }
 
     post {
         always {
+            // Keep the results even if tests fail
             archiveArtifacts artifacts: 'cypress/videos/**/*.mp4', allowEmptyArchive: true
         }
     }
