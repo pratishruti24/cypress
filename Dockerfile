@@ -8,6 +8,7 @@ COPY package.json .
 
 # 3. Install dependencies
 RUN npm install
+RUN npx cypress install
 
 # 4. NOW copy the rest of your app code
 # This copies everything from your local folder into /app
