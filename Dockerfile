@@ -18,7 +18,9 @@ RUN npm install cypress
 # Copy your test files and folders (cypress/, cypress.config.js, etc.)
 COPY . .
 
-# Run the tests
-# The 'included' image uses 'cypress run' as the default entrypoint.
-# We use 'npm run test' to follow your package.json script.
-ENTRYPOINT ["npm", "run", "test"]
+# 1. Make the entrypoint script executable inside the container
+RUN chmod +x /app/entrypoint.sh
+
+# 2. Change the ENTRYPOINT to point to your script
+# We use the absolute path to ensure it finds the file
+ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
